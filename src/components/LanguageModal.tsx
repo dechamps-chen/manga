@@ -1,15 +1,15 @@
 import { Button, Group, Modal, Radio } from "@mantine/core";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { LANGUAGES } from "@/core/constants"
+import { LanguageContext } from "./LanguageContext";
 
 type Props = {
-  language: string;
   languageModalOpened: boolean;
-  setLanguage?: (lang: string) => void;
   setLanguageModalOpened?: (bool: boolean) => void;
 };
 
-const LanguageModal: FunctionComponent<Props> = ({ language, languageModalOpened, setLanguage, setLanguageModalOpened }) => {
+const LanguageModal: FunctionComponent<Props> = ({ languageModalOpened, setLanguageModalOpened }) => {
+  const { language, setLanguage } = useContext(LanguageContext);
   const [radioValue, setRadioValue] = useState<string>(language);
 
   function LanguageOnSubmit(): void {

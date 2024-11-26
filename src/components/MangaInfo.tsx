@@ -1,7 +1,8 @@
 import { IMangaInfo } from "@consumet/extensions";
 import { BackgroundImage, Badge, Box, Breadcrumbs, Group, Image, Stack, Text, Title } from "@mantine/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import { useViewportSize } from '@mantine/hooks';
+import { LanguageContext } from "./LanguageContext";
 
 type Props = {
   manga: IMangaInfo;
@@ -9,7 +10,8 @@ type Props = {
 
 const MangaInfo: FunctionComponent<Props> = ({ manga }) => {
   const { height } = useViewportSize();
-
+  const { language } = useContext(LanguageContext);
+  
   return (
     <Group>
       <BackgroundImage w="100%" h={{ base: height * 0.7, md: 322 }} src={manga.image ? manga.image : ""} style={{ position: "relative" }} >
@@ -32,6 +34,12 @@ const MangaInfo: FunctionComponent<Props> = ({ manga }) => {
               {
                 manga.description?.en !== undefined &&
                 <Text style={{ cursor: "text" }} lineClamp={3}>{String(manga.description.en)}</Text>
+              }
+              {
+                manga.description && Array.isArray(manga.description) ?
+                manga.description.en
+                : 
+                <Text style={{ cursor: "text" }} lineClamp={3}>{String(manga.description)}</Text>
               }
             </Stack>
             <Image src={manga.image} h={322} display={{ base: "none", md: "block" }} />

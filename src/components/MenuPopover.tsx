@@ -1,17 +1,18 @@
 import { Burger, Button, Group, Popover, Text, Stack } from "@mantine/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import { FaChevronRight } from "react-icons/fa6";
 import { LANGUAGES } from '@/core/constants';
 import { useTranslation } from "@/core/functions/useTranslation";
+import { LanguageContext } from "./LanguageContext";
 
 type Props = {
-  language: string;
   menuOpened: boolean;
   setMenuOpened?: (bool: boolean) => void;
   setLanguageModalOpened?: (bool: boolean) => void;
 };
 
-const MenuPopover: FunctionComponent<Props> = ({ language, menuOpened, setMenuOpened, setLanguageModalOpened }) => {
+const MenuPopover: FunctionComponent<Props> = ({ menuOpened, setMenuOpened, setLanguageModalOpened }) => {
+  const { language } = useContext(LanguageContext);
   const { t } = useTranslation(language);
 
   return (

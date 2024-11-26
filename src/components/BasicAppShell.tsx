@@ -1,12 +1,9 @@
 import { AppShell, Center, Text, useMantineTheme } from '@mantine/core';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Header from './Header';
-import { useEffect, useState } from 'react';
-import { LANGUAGES } from '@/core/constants';
-
+import { useState } from 'react';
 
 export function BasicAppShell() {
-  const [language, setLanguage] = useState<string>('en');
   const [familySafe, setFamilySafe] = useState<boolean>(true);
   const navigate = useNavigate();
   const theme = useMantineTheme();
@@ -23,19 +20,6 @@ export function BasicAppShell() {
     navigate("/search");
   }
 
-  useEffect(() => {
-    const storedLanguage = localStorage.getItem("language");
-    if (!storedLanguage) {
-      const defaultLanguage = LANGUAGES.find(l => l.navigator === navigator.language)?.value ?? "en";
-      localStorage.setItem("language", defaultLanguage);
-      setLanguage(defaultLanguage);
-    }
-    else {
-      setLanguage(storedLanguage);
-    }
-
-  }, []);
-
   return (
     <AppShell w="100%"
       header={{ height: 72 }}
@@ -44,8 +28,6 @@ export function BasicAppShell() {
       <AppShell.Header style={{ position: "relative", color: "white", backgroundColor: theme.colors.dark[9], border: "none" }}>
         <Center h="100%">
           <Header
-            language={language}
-            setLanguage={setLanguage}
             familySafe={familySafe}
             homeOnClick={OnClickHome}
             searchOnClick={OnClickSearch}
@@ -56,7 +38,7 @@ export function BasicAppShell() {
 
       <AppShell.Main p={0}>
         <Center w="100%">
-          <Outlet context={{ language, familySafe }} />
+          <Outlet context={{ familySafe }} />
         </Center>
       </AppShell.Main>
 

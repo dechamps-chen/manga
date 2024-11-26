@@ -62,7 +62,7 @@ export function HomePage() {
   }, [familySafe]);
 
   return (
-    <Stack w={{ base: "100%", md: 1080 }} py={20} gap="2.5rem">
+    <Stack w={{ base: "100%", md: 1080 }}  p={20} gap="2.5rem">
       {
         (lastestUpdates && !lastestUpdatesIsLoading) ?
           <MangaList title={t("lastestUpdates")} list={lastestUpdates} />

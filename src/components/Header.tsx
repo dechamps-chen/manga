@@ -1,16 +1,15 @@
 import { ActionIcon, Badge, Group, rem, UnstyledButton } from "@mantine/core";
 import { MantineLogo } from "@mantinex/mantine-logo";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useContext, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { TbPointFilled } from "react-icons/tb";
 import LanguageModal from "./LanguageModal";
 import MenuPopover from "./MenuPopover";
 import { useTranslation } from "@/core/functions/useTranslation";
+import { LanguageContext } from "./LanguageContext";
 
 type Props = {
-  language: string;
   familySafe: boolean;
-  setLanguage?: (lang: string) => void;
   homeOnClick?: () => void;
   searchOnClick?: () => void;
   familySafeOnClick?: () => void;
@@ -20,11 +19,12 @@ const Header: FunctionComponent<Props> = (props: Props) => {
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
   const icon = <TbPointFilled style={{ width: rem(12), height: rem(12) }} />;
   const [languageModalOpened, setLanguageModalOpened] = useState(false);
-  const { t } = useTranslation(props.language);
+  const { language } = useContext(LanguageContext);
+  const { t } = useTranslation(language);
 
   return (
     <Group w={1200} h="100%" px="md" justify="space-between">
-      <LanguageModal language={props.language} setLanguage={props.setLanguage} languageModalOpened={languageModalOpened} setLanguageModalOpened={setLanguageModalOpened} />
+      <LanguageModal languageModalOpened={languageModalOpened} setLanguageModalOpened={setLanguageModalOpened} />
 
       <UnstyledButton onClick={props.homeOnClick}><MantineLogo size={30} /></UnstyledButton>
       <Group>
@@ -36,7 +36,7 @@ const Header: FunctionComponent<Props> = (props: Props) => {
           <CiSearch size={24} />
         </ActionIcon>
 
-        <MenuPopover language={props.language} menuOpened={menuOpened} setMenuOpened={setMenuOpened} setLanguageModalOpened={setLanguageModalOpened} />
+        <MenuPopover menuOpened={menuOpened} setMenuOpened={setMenuOpened} setLanguageModalOpened={setLanguageModalOpened} />
       </Group>
     </Group>
   );

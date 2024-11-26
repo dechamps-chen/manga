@@ -18,7 +18,6 @@ const Manga: FunctionComponent<Props> = () => {
   const [manga, setManga] = useState<IMangaInfo>();
   const [title, setTitle] = useState('');
   useDocumentTitle(title);
-  console.log(manga);
 
   function MangaDoesNotExist(): void {
     modals.open({
