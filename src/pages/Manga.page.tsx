@@ -35,7 +35,11 @@ const Manga: FunctionComponent<Props> = () => {
     if (params.id !== undefined) {
       mangadex.fetchMangaInfo(params.id).then(v => {
         setManga(v);
-        setTitle(`${String(v.title ? v.title : (v.altTitles ? (v.altTitles.find(title => title.en !== undefined)).en : "undefined"))} - Manga`);
+        setTitle(`${v.title ?? (
+        Array.isArray(v.altTitles)
+          ? (v.altTitles.find(title => title.en !== undefined)?.en ?? "undefined")
+          : "undefined"
+        )} - Manga`);
       })
         .catch(() => {
           MangaDoesNotExist();
