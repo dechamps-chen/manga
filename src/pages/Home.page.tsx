@@ -1,12 +1,13 @@
 import MangaList from '@/components/MangaList';
 import { Stack } from '@mantine/core';
 import { IMangaResult, ISearch, MANGA } from "@consumet/extensions"
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import MangaListSkeleton from '@/components/MangaListSkeleton';
 import { useOutletContext } from 'react-router-dom';
 import { useDocumentTitle } from '@mantine/hooks';
 import { useTranslation } from '@/core/functions/useTranslation';
 import { useMangaList } from '@/core/functions/useMangaList';
+import { LanguageContext } from '@/components/LanguageContext';
 
 export function HomePage() {
   // const mangadex = new MANGA.MangaDex;
@@ -16,9 +17,10 @@ export function HomePage() {
   const [popularIsLoading, setPopularIsLoading] = useState<boolean>(true);
   const [recentlyAdded, setRecentlyAdded] = useState<ISearch<IMangaResult> | null>(null);
   const [recentlyAddedIsLoading, setRecentlyAddedIsLoading] = useState<boolean>(true);
-  const { language, familySafe } = useOutletContext<{ language: string, familySafe: boolean }>();
+  const { familySafe } = useOutletContext<{ familySafe: boolean }>();
+  const { language } = useContext(LanguageContext);
   const { t } = useTranslation(language);
-  useDocumentTitle("Manga - Read unlimited free manga online");
+  useDocumentTitle(t("homeTitle"));
   const { fetchLatestUpdates, fetchPopular, fetchRecentlyAdded } = useMangaList();
 
   useEffect(() => {
