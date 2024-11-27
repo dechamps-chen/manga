@@ -71,6 +71,8 @@ export const resources: Resources = {
     desc: "DESC",
     expand: "Expand",
     reduce: "Reduce",
+    previousEpisode: "Previous Episode",
+    nextEpisode: "Next Episode",
   },
   "zh": {
     homeTitle: "Manga - Read unlimited free manga online",
@@ -84,6 +86,8 @@ export const resources: Resources = {
     desc: "倒序",
     expand: "展开",
     reduce: "收缩",
+    previousEpisode: "上一集",
+    nextEpisode: "下一集",
   },
   "zh-hk": {
     homeTitle: "Manga - Read unlimited free manga online",
@@ -97,6 +101,8 @@ export const resources: Resources = {
     desc: "DESC",
     expand: "Expand",
     reduce: "Reduce",
+    previousEpisode: "Previous Episode",
+    nextEpisode: "Next Episode",
   },
   "es-la": {
     homeTitle: "Manga - Read unlimited free manga online",
@@ -110,6 +116,8 @@ export const resources: Resources = {
     desc: "DESC",
     expand: "Expand",
     reduce: "Reduce",
+    previousEpisode: "Previous Episode",
+    nextEpisode: "Next Episode",
   },
   "it": {
     homeTitle: "Manga - Read unlimited free manga online",
@@ -123,6 +131,8 @@ export const resources: Resources = {
     desc: "DESC",
     expand: "Expand",
     reduce: "Reduce",
+    previousEpisode: "Previous Episode",
+    nextEpisode: "Next Episode",
   },
   "pt-br": {
     homeTitle: "Manga - Read unlimited free manga online",
@@ -136,6 +146,8 @@ export const resources: Resources = {
     desc: "DESC",
     expand: "Expand",
     reduce: "Reduce",
+    previousEpisode: "Previous Episode",
+    nextEpisode: "Next Episode",
   },
   "de": {
     homeTitle: "Manga - Read unlimited free manga online",
@@ -149,6 +161,8 @@ export const resources: Resources = {
     desc: "DESC",
     expand: "Expand",
     reduce: "Reduce",
+    previousEpisode: "Previous Episode",
+    nextEpisode: "Next Episode",
   },
   "fr": {
     homeTitle: "Manga - Read unlimited free manga online",
@@ -162,6 +176,8 @@ export const resources: Resources = {
     desc: "DESC",
     expand: "Etendre",
     reduce: "Réduire",
+    previousEpisode: "Episode précédent",
+    nextEpisode: "Episode suivant",
   },
   "ja": {
     homeTitle: "Manga - Read unlimited free manga online",
@@ -175,5 +191,7 @@ export const resources: Resources = {
     desc: "DESC",
     expand: "Expand",
     reduce: "Reduce",
+    previousEpisode: "Previous Episode",
+    nextEpisode: "Next Episode",
   },
 }
