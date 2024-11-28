@@ -145,7 +145,7 @@ const MangaRead: FunctionComponent<Props> = () => {
 
   return (
     !isLoading ?
-      <ScrollArea w="100%" h={height} viewportRef={scrollAreaRef} type="never" onScrollPositionChange={() => HandleScroll()} onClick={HandleScrollAreaOnClick} style={{ position: "relative", userSelect: "none" }}>
+      <ScrollArea w="100%" h={height - 0.1} viewportRef={scrollAreaRef} type="always" scrollbarSize={10} onScrollPositionChange={() => HandleScroll()} onClick={HandleScrollAreaOnClick} style={{ position: "relative", userSelect: "none" }}>
         <Stack w="100%" h="100%" justify="space-between" style={{ left: 0, position: "absolute", backgroundColor: "transparent", pointerEvents: "none", transitionDuration: showControl ? "0.6s" : "0s" }}>
           <Group w="100%" mx="auto" h={64} style={{ position: "fixed", top: showControl ? "0px" : "-85px", pointerEvents: "auto", opacity: showControl ? 0.9 : 0, transition: "1s", color: "white", backgroundColor: "black" }}>
             <UnstyledButton onClick={(e) => { e.stopPropagation(); navigate("../") }}><MantineLogo size={30} /></UnstyledButton>
