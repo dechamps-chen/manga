@@ -2,7 +2,6 @@ import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { ModalsProvider } from "@mantine/modals";
 import { Router } from './Router';
-import { theme } from './theme';
 import { useEffect, useState } from 'react';
 import { LanguageContext } from './components/LanguageContext';
 import { LANGUAGES } from './core/constants';
@@ -24,7 +23,7 @@ export default function App() {
   }, []);
 
   return (
-    <MantineProvider theme={theme}>
+    <MantineProvider>
       <LanguageContext.Provider value={value}>
         <ModalsProvider>
           <Router />

@@ -1,7 +1,7 @@
 import { IMangaChapterPage, IMangaInfo, MANGA } from "@consumet/extensions";
-import { Stack, Image, Text, UnstyledButton, Group, ScrollArea, Button, ActionIcon, Skeleton } from "@mantine/core";
+import { Stack, Image, Text, UnstyledButton, Group, ScrollArea, ActionIcon, Skeleton, Anchor } from "@mantine/core";
 import { useDocumentTitle, useViewportSize } from "@mantine/hooks";
-import React, { FunctionComponent, useContext, useEffect, useRef, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useRef, useState } from "react";
 import { Params, useNavigate, useParams } from "react-router-dom";
 import { modals } from "@mantine/modals";
 import { InView } from 'react-intersection-observer';
@@ -28,7 +28,7 @@ const MangaRead: FunctionComponent<Props> = () => {
   useDocumentTitle(title);
   const [inViewIndices, setInViewIndices] = useState(new Set<number>());
   const { height } = useViewportSize();
-  const [ showControl, setShowControl ] = useState<boolean>(true);
+  const [showControl, setShowControl] = useState<boolean>(true);
   const [prevScrollTop, setPrevScrollTop] = useState<number | null>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -105,23 +105,23 @@ const MangaRead: FunctionComponent<Props> = () => {
       mangadex.fetchMangaInfo(params.id).then(v => {
         setManga(v);
         const epNumber = v.chapters?.find(ep => ep.id === params.ep)?.chapterNumber;
-        if(v.chapters) {
+        if (v.chapters) {
           setPreviousEpisode(
-            (v.chapters[v.chapters?.findIndex(ep => ep.chapterNumber === epNumber)+1])
-            ?
-            v.chapters[v.chapters?.findIndex(ep => ep.chapterNumber === epNumber)+1].id
-            :
-            null
+            (v.chapters[v.chapters?.findIndex(ep => ep.chapterNumber === epNumber) + 1])
+              ?
+              v.chapters[v.chapters?.findIndex(ep => ep.chapterNumber === epNumber) + 1].id
+              :
+              null
           );
           setNextEpisode(
-            (v.chapters[v.chapters?.findIndex(ep => ep.chapterNumber === epNumber)-1])
-            ?
-            v.chapters[v.chapters?.findIndex(ep => ep.chapterNumber === epNumber)-1].id
-            :
-            null
+            (v.chapters[v.chapters?.findIndex(ep => ep.chapterNumber === epNumber) - 1])
+              ?
+              v.chapters[v.chapters?.findIndex(ep => ep.chapterNumber === epNumber) - 1].id
+              :
+              null
           );
         }
-        v.title && setTitle(`${!Array.isArray(v.title)?v.title:""} - ${epNumber && epNumber} - Manga`);
+        v.title && setTitle(`${!Array.isArray(v.title) ? v.title : ""} - ${epNumber && epNumber} - Manga`);
         epNumber && setEpisodeNumber(Number(epNumber));
       })
         .catch(() => {
@@ -145,39 +145,56 @@ const MangaRead: FunctionComponent<Props> = () => {
 
   return (
     !isLoading ?
-    <ScrollArea w="100%" h={height} viewportRef={scrollAreaRef} type="never" onScrollPositionChange={() => HandleScroll()} onClick={HandleScrollAreaOnClick} style={{ position: "relative", userSelect: "none" }}>
-      <Stack w="100%" h="100%" justify="space-between" style={{ top: 0, left:0, position: "absolute", backgroundColor: "transparent", pointerEvents: "none", opacity: showControl ? 1 : 0, visibility: showControl ? "visible" : "hidden", zIndex: 1000, transitionDuration: showControl ? "0.6s" : "0s" }}>
-        <Group w={{ base: "100%", lg: "1200" }} mx="auto" h={height*0.1} style={{ pointerEvents: "auto", backgroundColor: "pink" }}>
-          <UnstyledButton onClick={(e) => {e.stopPropagation(); navigate("../")}}><MantineLogo size={30} /></UnstyledButton>
+      <ScrollArea w="100%" h={height} viewportRef={scrollAreaRef} type="never" onScrollPositionChange={() => HandleScroll()} onClick={HandleScrollAreaOnClick} style={{ position: "relative", userSelect: "none" }}>
+        <Stack w="100%" h="100%" justify="space-between" style={{ left: 0, position: "absolute", backgroundColor: "transparent", pointerEvents: "none", transitionDuration: showControl ? "0.6s" : "0s" }}>
+          <Group w="100%" mx="auto" h={64} style={{ position: "fixed", top: showControl ? "0px" : "-85px", pointerEvents: "auto", opacity: showControl ? 0.9 : 0, transition: "1s", color: "white", backgroundColor: "black" }}>
+            <UnstyledButton onClick={(e) => { e.stopPropagation(); navigate("../") }}><MantineLogo size={30} /></UnstyledButton>
+            {
+              manga &&
+              <Stack gap={0}>
+                <Text size="xl" fw={600}>{String(manga.title)}</Text>
+                <Text c="#888888">{episodeNumber}</Text>
+              </Stack>
+            }
+          </Group>
+
           {
             manga &&
-            <Text>{`${manga.title} | ${episodeNumber}`}</Text>
+            <Group w="100%" h={85} mx="auto" justify="center" style={{ position: "fixed", bottom: showControl ? "0px" : "-233px", opacity: showControl ? 0.9 : 0, transition: "1s", pointerEvents: "auto", backgroundColor: "black" }}>
+              <Anchor
+                onClick={e => { e.stopPropagation(); navigate(`../manga/${manga.id}/ep/${previousEpisode}`) }}
+                c={previousEpisode ? "white" : "#888888"}
+                style={{ pointer: "auto", pointerEvents: previousEpisode ? "auto" : "none" }}
+              >
+                <FaChevronLeft size={14} />
+                {t("previousEpisode")}
+              </Anchor>
+              <ActionIcon onClick={e => { e.stopPropagation(); navigate(`../manga/${manga.id}`) }} variant="transparent" color="white" aria-label="Settings"><FaList /></ActionIcon>
+              <Anchor
+                onClick={e => { e.stopPropagation(); navigate(`../manga/${manga.id}/ep/${nextEpisode}`) }}
+                c={nextEpisode ? "white" : "#888888"}
+                style={{ pointer: "auto", pointerEvents: nextEpisode ? "auto" : "none" }}
+              >
+                {t("nextEpisode")}
+                <FaChevronRight size={14} />
+              </Anchor>
+            </Group>
           }
-        </Group>
-
+        </Stack>
         {
-          manga &&
-          <Group w={{ base: "100%", lg: "1200" }} h={height*0.1} mx="auto" justify="center" style={{ pointerEvents: "auto", backgroundColor: "skyblue" }}>
-            <Button disabled={!previousEpisode} onClick={e => {e.stopPropagation(); navigate(`../manga/${manga.id}/ep/${previousEpisode}`)}} size="md" leftSection={<FaChevronLeft size={14} />} variant="default">{t("previousEpisode")}</Button>
-            <ActionIcon onClick={e => {e.stopPropagation(); navigate(`../manga/${manga.id}`)}} variant="default" aria-label="Settings"><FaList /></ActionIcon>
-            <Button disabled={!nextEpisode} onClick={e => {e.stopPropagation(); navigate(`../manga/${manga.id}/ep/${nextEpisode}`)}} size="md" rightSection={<FaChevronRight size={14} />} variant="default">{t("nextEpisode")}</Button>
-          </Group>
+          episode &&
+          episode.map((ep, key) => (
+            <InView key={key} threshold={0.1} onChange={(inView) => HandleInViewChange(inView, key)}>
+              {
+                ({ ref }) =>
+                  <Image ref={ref} key={key} src={ep.img} maw={900} mx="auto" loading="lazy" draggable={false} style={{ visibility: IsVisible(key) ? 'visible' : 'hidden' }} />
+              }
+            </InView>
+          ))
         }
-      </Stack>
-      {
-        episode &&
-        episode.map((ep, key) => (
-          <InView key={key} threshold={0.1} onChange={(inView) => HandleInViewChange(inView, key)}>
-          {
-            ({ ref }) =>
-            <Image ref={ref} key={key} src={ep.img} maw={900} mx="auto" loading="lazy" draggable={false} style={{ visibility: IsVisible(key) ? 'visible' : 'hidden' }} />
-          }
-          </InView>
-        ))
-      }
-    </ScrollArea>
-    :
-    <Skeleton w="100%" h="100%" />
+      </ScrollArea >
+      :
+      <Skeleton w="100%" h="100%" />
   );
 };
 

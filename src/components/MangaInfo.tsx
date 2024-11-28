@@ -1,6 +1,6 @@
 import { IMangaInfo } from "@consumet/extensions";
 import { BackgroundImage, Badge, Box, Breadcrumbs, Group, Image, Stack, Text, Title } from "@mantine/core";
-import { FunctionComponent, useContext } from "react";
+import { FunctionComponent } from "react";
 
 type Props = {
   manga: IMangaInfo;
